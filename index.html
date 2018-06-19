@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Design</title>
+	<title>Dice Pig Game</title>
 
 <style>
 
@@ -30,22 +30,21 @@
 .start-backdrop {
 	position: absolute;
 	height: 580px;
-	width: 285px;
+	width: 580px;
 	top: 10px;
 	pointer-events: none;
 	background-color: rgba(255, 255, 255, .2);
 	left: 10px;
 }
-.dice {
+canvas {
+	border: 1px solid black;
+	border-radius: 15px;
 	position: absolute;
-	height: 80px;
-	width: 80px;
 	top: 200px;
 	left: 257.5px;
-	/*background-color: #222;*/
-	/*opacity: .4;*/
-	/*border: 2px white solid;*/
+	background-color: rgba(255,255,255,.5);
 }
+
 .player {
 	position: absolute;
 	height: 580px;
@@ -97,6 +96,7 @@
 	text-align: center;
 	height: 25px;
 	width: 120px;
+	cursor: pointer;
 }
 #roll-dice {
 	top: 320px;
@@ -114,7 +114,6 @@
 	top: 390px;
 	font-size: 16px;
 }
-
 .player-highlight {
 	position: absolute;
 	top: 35px;
@@ -140,74 +139,76 @@
 </head>
 <body>
 
-	<div class="dice-game" id="dice-game">
-		<div class="player"  id="player-0">
-			<div class="player-title">
-				<div class="player-name" id="player-0-name">Player 1</div>
-			</div>
-			<div class="score" id="p0-score">00</div>
-			<div class="current" id="p0-current">0</div>
+<div class="dice-game" id="dice-game">
+	<div class="player"  id="player-0">
+		<div class="player-title">
+			<div class="player-name" id="player-0-name">Player 1</div>
 		</div>
-		<div class="player" id="player-1">
-				<div class="player-name" id="player-1-name">Player 2</div>
-				<div class="score" id="p1-score">00</div>
-			<div class="current" id="p1-current">0</div>
-		</div>
-
-		<div class="dice">
-			<div class="rolled-number">
-				<img src="images/Dice_0.png" height="80px" id="rolled-number" alt="Dice">
-			</div>
-		</div>
-
-		<div class="buttons">
-			<div class="button" id="roll-dice">Roll Dice</div>
-			<div class="button hold" id="hold-current">Hold</div>
-			<div class="button" id="reset">Reset</div>
-		</div>
-		
-		<div class="history">
-      		<textarea name="history" disabled="" id="history" cols="45" rows="8"></textarea>
-    	</div>
-
-    	<div class="start-game" id="start-game">
-    		<div class="start-backdrop"></div>
-			<p>Enter Player 1 Details: </p>
-			<select name="color-0" id="color-1">
-				<option value="#f44336" selected="" disabled="">Red</option>
-				<option value="#e91e63">Pink</option>
-				<option value="#9c27b0">Purple</option>
-				<option value="#2196f3" disabled="">Blue</option>
-				<option value="#ffeb3b">Yellow</option>
-				<option value="#ff9800">Orange</option>
-				<option value="#795548">Brown</option>
-				<option value="#9e9e9e">Grey</option>
-			</select>
-			<input type="text" id="player-0-input" placeholder="Player 1">
-			<input type="radio" id="turn-select-0" name="turn-select" value="0" checked><br>
-			<br><br>
-			<p>Enter Player 2 Details: </p>
-			<select name="color-1" id="color-2">
-				<option value="#f44336" disabled="">Red</option>
-				<option value="#e91e63">Pink</option>
-				<option value="#9c27b0">Purple</option>
-				<option value="#2196f3" selected="" disabled="">Blue</option>
-				<option value="#ffeb3b">Yellow</option>
-				<option value="#ff9800">Orange</option>
-				<option value="#795548">Brown</option>
-				<option value="#9e9e9e">Grey</option>
-			</select>
-			<input type="text" id="player-1-input" placeholder="Player 2">
-			<input type="radio" id="turn-select-1" name="turn-select" value="1"><br>
-			<br><br>
-			<button id="game-start">Start</button>
-		</div>
-
-		<div class="highlight">
-			<div class="player-highlight" id="player-0-highlight"></div>
-			<div class="player-highlight" id="player-1-highlight"></div>
+		<div class="score" id="p0-score">00</div>
+		<div class="current" id="p0-current">0</div>
+	</div>
+	<div class="player" id="player-1">
+			<div class="player-name" id="player-1-name">Player 2</div>
+			<div class="score" id="p1-score">00</div>
+		<div class="current" id="p1-current">0</div>
+	</div>
+	<div class="dice">
+		<div class="rolled-number">
+			<canvas id="rolled-number"></canvas>
 		</div>
 	</div>
+
+	<div class="buttons">
+		<div class="button" id="roll-dice">Roll Dice</div>
+		<div class="button hold" id="hold-current">Hold</div>
+		<div class="button" id="reset">Reset</div>
+	</div>
+	
+	<div class="history">
+  		<textarea name="history" disabled="" id="history" cols="45" rows="8"></textarea>
+	</div>
+
+	<div class="start-game" id="start-game">
+		<div class="start-backdrop"></div>
+		<p>Enter Player 1 Details: </p>
+		<select name="color-0" id="color-1">
+			<option value="#f44336" selected="" disabled="">Red</option>
+			<option value="#e91e63">Pink</option>
+			<option value="#9c27b0">Purple</option>
+			<option value="#2196f3" disabled="">Blue</option>
+			<option value="#ffeb3b">Yellow</option>
+			<option value="#ff9800">Orange</option>
+			<option value="#795548">Brown</option>
+			<option value="#9e9e9e">Grey</option>
+		</select>
+		<input type="text" id="player-0-input" placeholder="Player 1">
+		<input type="radio" id="turn-select-0" name="turn-select" value="0" checked><br>
+		<br><br>
+		<p>Enter Player 2 Details: </p>
+		<select name="color-1" id="color-2">
+			<option value="#f44336" disabled="">Red</option>
+			<option value="#e91e63">Pink</option>
+			<option value="#9c27b0">Purple</option>
+			<option value="#2196f3" selected="" disabled="">Blue</option>
+			<option value="#ffeb3b">Yellow</option>
+			<option value="#ff9800">Orange</option>
+			<option value="#795548">Brown</option>
+			<option value="#9e9e9e">Grey</option>
+		</select>
+		<input type="text" id="player-1-input" placeholder="Player 2">
+		<input type="radio" id="turn-select-1" name="turn-select" value="1"><br>
+		<br><br>
+		<p>Enter Max Score: </p>
+		<input type="number" id="max-score" placeholder="50">
+		<br><br><br>	
+		<button id="game-start">Start</button>
+	</div>
+
+	<div class="highlight">
+		<div class="player-highlight" id="player-0-highlight"></div>
+		<div class="player-highlight" id="player-1-highlight"></div>
+	</div>
+</div>
 
 
 	
@@ -229,11 +230,78 @@ var p0name = document.getElementById("player-0-name");
 var p1name = document.getElementById("player-1-name");
 var p0highlight = document.getElementById("player-0-highlight");
 var p1highlight = document.getElementById("player-1-highlight");
+var p0color, p1color;
 
-var current=0, p0score=0, p1score=0, maxScore=30, p0rolled=0, p1rolled=0, pTurn=0;
+var p0current=0, p1current=0, p0score=0, p1score=0, maxScore=50, p0rolled=0, p1rolled=0, pTurn=0;
 var timer, finalDiceRoll;
 
 var startButton = document.getElementById("game-start");
+
+var canvas = document.querySelector('canvas');
+canvas.width = 80;
+canvas.height = 80;
+var c = canvas.getContext('2d');
+function drawCanvas(color0, diceValue) {
+	var radius = 9;
+	c.clearRect(0,0,80,80);
+
+	switch (diceValue) {
+		case 1: c.beginPath();
+				c.arc(40, 40, radius, 0, Math.PI * 2);
+				c.fillStyle = color0; c.fill();
+		break;
+		case 2: c.beginPath();
+				c.arc(20, 20, radius, 0, Math.PI * 2);
+				c.fillStyle = color0; c.fill();	c.beginPath();
+				c.arc(60, 60, radius, 0, Math.PI * 2);
+				c.fillStyle = color0; c.fill();
+		break;
+		case 3: c.beginPath();
+				c.arc(18, 18, radius, 0, Math.PI * 2);
+				c.fillStyle = color0; c.fill();	c.beginPath();
+				c.arc(40, 40, radius, 0, Math.PI * 2);
+				c.fillStyle = color0; c.fill();	c.beginPath();
+				c.arc(63, 63, radius, 0, Math.PI * 2);
+				c.fillStyle = color0; c.fill();
+		break;
+		case 4: c.beginPath();
+				c.arc(20, 20, radius, 0, Math.PI * 2);
+				c.fillStyle = color0; c.fill();	c.beginPath();
+				c.arc(60, 20, radius, 0, Math.PI * 2);
+				c.fillStyle = color0;c.fill();	c.beginPath();
+				c.arc(20, 60, radius, 0, Math.PI * 2);
+				c.fillStyle = color0; c.fill();	c.beginPath();
+				c.arc(60, 60, radius, 0, Math.PI * 2);
+				c.fillStyle = color0; c.fill();
+		break;
+		case 5: c.beginPath();
+				c.arc(40, 40, radius, 0, Math.PI * 2);
+				c.fillStyle = color0; c.fill();	c.beginPath();
+				c.arc(18, 18, radius, 0, Math.PI * 2);
+				c.fillStyle = color0; c.fill();	c.beginPath();
+				c.arc(62, 18, radius, 0, Math.PI * 2);
+				c.fillStyle = color0;c.fill();	c.beginPath();
+				c.arc(18, 62, radius, 0, Math.PI * 2);
+				c.fillStyle = color0; c.fill();	c.beginPath();
+				c.arc(62, 62, radius, 0, Math.PI * 2);
+				c.fillStyle = color0; c.fill();
+		break;
+		case 6: c.beginPath();
+				c.arc(25, 16, radius, 0, Math.PI * 2);
+				c.fillStyle = color0; c.fill();	c.beginPath();
+				c.arc(25, 64, radius, 0, Math.PI * 2);
+				c.fillStyle = color0; c.fill();	c.beginPath();
+				c.arc(25, 40, radius, 0, Math.PI * 2);
+				c.fillStyle = color0; c.fill();	c.beginPath();
+				c.arc(55, 16, radius, 0, Math.PI * 2);
+				c.fillStyle = color0; c.fill();	c.beginPath();
+				c.arc(55, 40, radius, 0, Math.PI * 2);
+				c.fillStyle = color0; c.fill();	c.beginPath();
+				c.arc(55, 64, radius, 0, Math.PI * 2);
+				c.fillStyle = color0; c.fill();
+		break;
+	}
+}
 
 startButton.onclick = function() {
 	var text0 = document.getElementById("player-0-input");
@@ -252,10 +320,11 @@ startButton.onclick = function() {
 	}
 	var color0 = document.getElementById("color-1").value;
 	var color1 = document.getElementById("color-2").value;
-	// console.log(color0);
 
 	var diceGame = document.getElementById("dice-game");
 	diceGame.style.background = "linear-gradient(to right, "+color0+","+color0+",white , "+color1+","+color1;
+	p0color = color0;
+	p1color = color1;
 
 	// Player Start Checker
 	var pStart = document.getElementById("turn-select-0");
@@ -273,6 +342,13 @@ startButton.onclick = function() {
 	// Hide Start Box
 	var testColor = document.getElementById("start-game");
 	testColor.style.visibility = "hidden";
+
+	var getMaxScore = document.getElementById("max-score");
+	if (getMaxScore.value == "") {
+		maxScore = 50;
+	} else {
+		maxScore = getMaxScore.value;
+	}
 
 }
 
@@ -319,15 +395,7 @@ function changeColor() {
 	highlight1.style.borderLeft = "30px solid "+color1 ;
 }
 
-var dice = {
-		sides: 6,
-		roll: function () {
-	    var randomNumber = Math.floor(Math.random() * this.sides) + 1;
-	    return randomNumber;
-	}
-}
-
-rollButton.onclick = function(){
+rollButton.onclick = function () {
 	timer = setInterval(tempf, 50);
 	rollButton.style.visibility = "hidden";
 	holdButton.style.visibility = "hidden";
@@ -335,27 +403,38 @@ rollButton.onclick = function(){
 }
 
 function tempf () {
-	finalDiceRoll = dice.roll();
-	rolledNumber.src = "images/Dice_"+finalDiceRoll+".png";
+	var randomNumber = Math.floor(Math.random() * 6) + 1;
+	finalDiceRoll = randomNumber;
+	if (pTurn == 0) {
+		drawCanvas (p0color, randomNumber);
+	} else {
+		drawCanvas (p1color, randomNumber);
+	}
 }
 
 function clearTimer () {
 	clearInterval(timer);
 	rollDice();
-	rollButton.style.visibility = "visible";
+	if ((p0score) < maxScore || (p1score) < maxScore){
+		rollButton.style.visibility = "visible";
+	}
+	if ((p0score+p0current) >= maxScore || (p1score+p1current) >= maxScore) {
+		rollButton.style.visibility = "hidden";
+	}
 }
 
 function rollDice() {
 	var result = finalDiceRoll;
 	rolledNumber.innerHTML = result;
 
-	if(result != 1){
-		current += result;
-		if (pTurn == 0){
-			hist.innerHTML += "\n" +p0name.innerHTML+ " rolled a " + result + ". " +p0name.innerHTML+ "'s Current is " + current + ".";
+	if(result != 1) {
+		if (pTurn == 0) {
+			p0current +=result;
+			hist.innerHTML += "\n" +p0name.innerHTML+ " rolled a " + result + ". " +p0name.innerHTML+ "'s Current is " + p0current + ".";
 		}
-		else{
-			hist.innerHTML += "\n" +p1name.innerHTML+ " rolled a " + result + ". " +p1name.innerHTML+ "'s Current is " + current + ".";
+		else {
+			p1current +=result;
+			hist.innerHTML += "\n" +p1name.innerHTML+ " rolled a " + result + ". " +p1name.innerHTML+ "'s Current is " + p1current + ".";
 		}
 		holdButton.style.visibility = "visible";
 	} else {
@@ -373,25 +452,46 @@ function rollDice() {
 		}
 		p0Current.innerHTML = 0;
 		p1Current.innerHTML = 0;
-		current = 0;
+		p0current = 0; p1current = 0;
 		holdButton.style.visibility = "hidden";
 	}
-	hist.scrollTop = hist.scrollHeight;
 	if (pTurn == 0) {
 		p0rolled++;
-		p0Current.innerHTML = current;
+		p0Current.innerHTML = p0current;
 	}
 	else {
 		p1rolled++;
-		p1Current.innerHTML = current;
+		p1Current.innerHTML = p1current;
 	}
+	if ((p0score+p0current) >= maxScore || (p1score+p1current) >= maxScore) {
+		var name0 = document.getElementById("player-0-name");
+		var name1 = document.getElementById("player-1-name");	
+		if (pTurn == 0) {
+			hist.innerHTML += "\n" +p0name.innerHTML+ " have scored over " + maxScore + " in "+ p0rolled +" rolls. \nGAME WON !!" + '\nPress "Reset" to Start a new Game.';
+			name0.innerHTML = "WINNER !!";
+			p0score += p0current;
+			p0Score.innerHTML = p0score;
+			p0Current.innerHTML = "0";
 
+		} else {
+			hist.innerHTML += "\n" +p1name.innerHTML+ " have scored over " + maxScore + " in "+ p1rolled +" rolls. \nGAME WON !!" + '\nPress "Reset" to Start a new Game.';
+			name1.innerHTML = "WINNER !!";
+			p1score += p1current;
+			p1Score.innerHTML = p1score;
+			p1Current.innerHTML = "0";
+		}
+		holdButton.style.visibility = "hidden";
+		rollButton.style.visibility = "hidden";
+		p1highlight.style.visibility = "hidden";
+		p0highlight.style.visibility = "hidden";
+	}
+	hist.scrollTop = hist.scrollHeight;
 }
 
 holdButton.onclick = function () {
 	if (pTurn == 0) {
-		p0score += current;
-		hist.innerHTML += "\n" + current + " added to " +p0name.innerHTML+ "'s score. " +p0name.innerHTML+ "'s Total Score is " + p0score;
+		p0score += p0current;
+		hist.innerHTML += "\n" + p0current + " added to " +p0name.innerHTML+ "'s score. " +p0name.innerHTML+ "'s Total Score is " + p0score;
 		p0Current.innerHTML = 0;
 		p1Current.innerHTML = 0;
 		p0Score.innerHTML = p0score;
@@ -399,8 +499,8 @@ holdButton.onclick = function () {
 		p0highlight.style.visibility = "hidden";
 		p1highlight.style.visibility = "visible";
 	} else {
-		p1score += current;
-		hist.innerHTML += "\n" + current + " added to " +p1name.innerHTML+ "'s score. " +p1name.innerHTML+ "'s Total Score is " + p1score;
+		p1score += p1current;
+		hist.innerHTML += "\n" + p1current + " added to " +p1name.innerHTML+ "'s score. " +p1name.innerHTML+ "'s Total Score is " + p1score;
 		p0Current.innerHTML = 0;
 		p1Current.innerHTML = 0;
 		p1Score.innerHTML = p1score;
@@ -408,24 +508,15 @@ holdButton.onclick = function () {
 		p1highlight.style.visibility = "hidden";
 		p0highlight.style.visibility = "visible";
 	}
-	current = 0;
+	p0current = 0; p1current = 0;
 
-	if (p0score >= maxScore || p1score >= maxScore) {
-		if (pTurn != 0) {
-			hist.innerHTML += "\n" +p0name.innerHTML+ " have scored over " + maxScore + " in "+ p0rolled +" rolls. \nGAME WON !!" + '\nPress "Reset" to Start a new Game.';
-		} else {
-			hist.innerHTML += "\n" +p1name.innerHTML+ " have scored over " + maxScore + " in "+ p1rolled +" rolls. \nGAME WON !!" + '\nPress "Reset" to Start a new Game.';
-		}
-		rollButton.style.visibility = "hidden";
-		p1highlight.style.visibility = "hidden";
-		p0highlight.style.visibility = "hidden";
-	}
 	hist.scrollTop = hist.scrollHeight;
 	holdButton.style.visibility = "hidden";
 }
 
 reset.onclick = function () {
-	score = 0; current = 0, rolled=0, pTurn=0;
+	p0score = 0; p0current = 0, current=0, p0rolled=0, pTurn=0;
+	p1score = 0; p1current = 0, p1rolled=0;
 	p0Current.innerHTML = 0;
 	p1Current.innerHTML = 0;
 	p0Score.innerHTML = "00";
@@ -435,8 +526,10 @@ reset.onclick = function () {
 	rollButton.style.visibility = "visible";
 	holdButton.style.visibility = "hidden";
 	p1highlight.style.visibility = "hidden";
-	p0highlight.style.visibility = "visible";
-	rolledNumber.src = "images/Dice_0.png";
+	p0highlight.style.visibility = "hidden";
+	var testColor = document.getElementById("start-game");
+	testColor.style.visibility = "visible";
+	drawCanvas ("white", 0);
 }
 
 	</script>
